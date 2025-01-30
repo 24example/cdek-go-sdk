@@ -1,4 +1,4 @@
-module github.com/riizeron/cdek-go-sdk
+module github.com/24example/cdek-go-sdk
 
 go 1.18
 
