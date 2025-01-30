@@ -41,14 +41,14 @@ func jsonReq[T any](req *http.Request) (*T, error) {
 		return nil, errors.New("invalid credentials")
 	}
 
-	if response.StatusCode >= http.StatusBadRequest {
-		return nil, fmt.Errorf("bad request: %d", response.StatusCode)
-	}
-
 	var s T
 	payload, err := io.ReadAll(response.Body)
 	if err != nil {
-		return nil, errors.Wrap(err, "ioutil.ReadAll")
+		return nil, errors.Wrap(err, "io.ReadAll")
+	}
+
+	if response.StatusCode >= http.StatusBadRequest {
+		return nil, fmt.Errorf("bad request: %s", string(payload))
 	}
 
 	var respErr RespErrors
