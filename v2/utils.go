@@ -37,6 +37,14 @@ func jsonReq[T any](req *http.Request) (*T, error) {
 	}
 	defer response.Body.Close()
 
+	if response.StatusCode == http.StatusUnauthorized {
+		return nil, errors.New("invalid credentials")
+	}
+
+	if response.StatusCode >= http.StatusBadRequest {
+		return nil, fmt.Errorf("bad request: %d", response.StatusCode)
+	}
+
 	var s T
 	payload, err := io.ReadAll(response.Body)
 	if err != nil {
