@@ -55,6 +55,10 @@ type CalculatorTrafiffListResponse struct {
 }
 
 func (c *clientImpl) CalculatorTariffList(ctx context.Context, input *CalculatorTariffListRequest) (*CalculatorTrafiffListResponse, error) {
+	if input.Lang == "" {
+		input.Lang = "rus"
+	}
+
 	payload, err := json.Marshal(input)
 	if err != nil {
 		return nil, err
