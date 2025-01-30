@@ -65,6 +65,10 @@ func (c *clientImpl) Auth(ctx context.Context) (*AuthResponse, error) {
 		return nil, err
 	}
 
+	if req.Response.StatusCode == http.StatusUnauthorized {
+		return nil, fmt.Errorf("invalid credentials")
+	}
+
 	if req.Response.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("invalid status code: %d", req.Response.StatusCode)
 	}
